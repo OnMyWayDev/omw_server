@@ -6,6 +6,10 @@ TBU
 `Nest.js` `TypeScript`
 `ESLint` `Prettier`
 `Jest` `Github Actions` `Git Flow` `pnpm`
+`AWS Secrets Manager` 
+
+Grafana, Prometheus,
+use MongoDB for monitoring/logging
 
 Docker - ?
 npmrc ? 
