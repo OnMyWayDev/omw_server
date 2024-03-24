@@ -5,6 +5,6 @@
 ### Tech Stacks
 Nest.js TypeScript
 ESLint Prettier
-Jest GithubActions
+Jest Github Actions
 
-... TBU
+TBU
