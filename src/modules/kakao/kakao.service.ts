@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class KakaoService {}
+export class KakaoService {
+  findDrivePath() {
+    return { path: 'drive path' };
+  }
+}
