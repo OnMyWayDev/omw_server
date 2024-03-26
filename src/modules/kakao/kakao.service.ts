@@ -113,28 +113,63 @@ export class KakaoService {
       //FIXME: 실패하더라도 다른 결과값은 반환해야 함 -> ./api폴더로 api들 옮기고, 서비스 로직이랑은 분리해서 사용하기. HttpRequestError반환 x
       //단 여러번의 검색 수행 중 에러난게 있었다면, 일부 에러가 있었다는 정보를 반환해야 함
 
-      for (const vertex of selectedVertices) {
-        //vertex = [x, y]
-        try {
-          const data = await this.getKeywordSearch({
-            query: query,
-            x: vertex[0],
-            y: vertex[1],
-            radius: radius.toString(),
-          });
-          data.documents.map((document) => {
-            searchResults.push({
-              place_name: document.place_name,
-              place_url: document.place_url,
-              x: document.x,
-              y: document.y,
-            });
-          });
-        } catch (err) {
-          console.log(err); //TODO: delete console.log
-          //throw Error
-        }
+      // 아래 코드 레거시로 남겨두기, 본 코드 내 함수 모듈화, 분리해서 사용하기, api로직 분기하기.
+      // Below code takes 3.62 seconds (Seoul-Gangneung, 꽃), 5.8 seconds (Seoul-Busan, 꽃)
+      // for (const vertex of selectedVertices) {
+      //   //vertex = [x, y]
+      //   try {
+      //     const data = await this.getKeywordSearch({
+      //       query: query,
+      //       x: vertex[0],
+      //       y: vertex[1],
+      //       radius: radius.toString(),
+      //     });
+      //     data.documents.map((document) => {
+      //       searchResults.push({
+      //         place_name: document.place_name,
+      //         place_url: document.place_url,
+      //         x: document.x,
+      //         y: document.y,
+      //       });
+      //     });
+      //   } catch (err) {
+      //     console.log(err); //TODO: delete console.log
+      //     //throw Error
+      //   }
+      // }
+
+      // Below code takes 2.31 seconds (Seoul-Gangneung, 꽃), 3.5 seconds (Seoul-Busan, 꽃)
+      const promises = selectedVertices.map((vertex) =>
+        this.getKeywordSearch({
+          query: query,
+          x: vertex[0],
+          y: vertex[1],
+          radius: radius.toString(),
+        }),
+      );
+
+      const results = await Promise.allSettled(promises);
+
+      const successfulResults = results.filter(
+        (result) => result.status === 'fulfilled',
+      );
+
+      if (successfulResults.length < promises.length - 2) {
+        //TODO: add error handling Logic
+        throw new Error('More than 2 requests failed');
       }
+
+      successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
+        result.value.documents.map((document) => {
+          searchResults.push({
+            place_name: document.place_name,
+            place_url: document.place_url,
+            x: document.x,
+            y: document.y,
+          });
+        });
+      });
+
       //remove duplicates
       searchResults = removeDuplicate([...searchResults]);
     }

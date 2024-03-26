@@ -10,6 +10,7 @@ import { ConfigModule } from '@nestjs/config';
 //TODO: add malicious attack protection with guard?helmet? with middlewares or interceptors
 //TODO: CORS, CSRF, and other security measures
 //TODO: add auth token, passport?
+//TODO: In general, fine tune parameters for performance (parameters for driving routes, search results, etc.)
 @Module({
   imports: [
     ConfigModule.forRoot(),

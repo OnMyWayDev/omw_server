@@ -42,7 +42,6 @@ export class KakaoController {
   @Get('search-on-path')
   //Search query on the path
   async getSearchOnPath(@Query() params: SearchOnPathQuery) {
-    this.logger.log(`getSearchOnPath: ${params}`);
     return await this.kakaoService.searchOnPath(params);
   }
 }
