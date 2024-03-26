@@ -1,13 +1,11 @@
 import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
 import { KakaoService } from './kakao.service';
-
-//TODO: create types file OR move to Dto
-interface KakaoKeywordSearchQuery {
-  query: string;
-  x?: string;
-  y?: string;
-  radius?: string;
-}
+import {
+  KakaoKeywordSearchQuery,
+  KakaoDrivingPathQuery,
+  KakaoGetAddressQuery,
+} from 'src/apis/types/kakaoApiTypes';
+import { SearchOnPathQuery } from 'src/apis/types/omwApiTypes';
 
 @Controller('kakao')
 export class KakaoController {
@@ -15,10 +13,10 @@ export class KakaoController {
 
   private readonly logger = new Logger(KakaoController.name);
 
-  @Get('cd-to-addr')
+  @Get('coord-to-addr')
   //returns list of candidate addresss (string value) with input coordinates (make sure coord system has to be converted)
   //TODO: pipes can be added here, for validation
-  async getAddress(@Query() params: { x: string; y: string }) {
+  async getAddress(@Query() params: KakaoGetAddressQuery) {
     this.logger.log(`getAddress: ${params}`);
     return await this.kakaoService.getAddress(params);
   }
@@ -28,7 +26,6 @@ export class KakaoController {
   //TODO: pipes can be added here, for validation
   async getKeywordSearch(@Query() params: KakaoKeywordSearchQuery) {
     this.logger.log(`getKeywordSearch: ${params}`);
-    console.log(params, typeof params);
     return await this.kakaoService.getKeywordSearch(params);
   }
 
@@ -36,14 +33,16 @@ export class KakaoController {
   //returns driving route information with input start and end coordinates (temporarily, no stopover)
   async getDrivingRoute(
     @Query()
-    params: {
-      originX: string;
-      originY: string;
-      goalX: string;
-      goalY: string;
-    },
+    params: KakaoDrivingPathQuery,
   ) {
     this.logger.log(`getDrivingRoute: ${params}`);
     return await this.kakaoService.getDrivingRoute(params);
+  }
+
+  @Get('search-on-path')
+  //Search query on the path
+  async getSearchOnPath(@Query() params: SearchOnPathQuery) {
+    this.logger.log(`getSearchOnPath: ${params}`);
+    return await this.kakaoService.searchOnPath(params);
   }
 }
