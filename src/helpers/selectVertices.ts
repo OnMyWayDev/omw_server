@@ -12,7 +12,7 @@ const selectVertices = ({
   // unitDistance * skipCount <= radius
   const totalCount: number = vertexList.length;
   const unitDistance: number = totalDistance / (totalCount - 1); //average distance between two vertices
-  const selectedVertices: string[] = [];
+  const selectedVertices: string[][] = [];
 
   const skipCount: number = Math.floor(radius / unitDistance);
 
@@ -21,9 +21,7 @@ const selectVertices = ({
     selectedVertices.push(vertexList[curIdx]);
     curIdx += skipCount;
   }
-
-  console.log('selected vertices :', selectedVertices);
-  console.log('selected vertices Count :', selectedVertices.length);
+  selectedVertices.push(vertexList[totalCount - 1]);
 
   return selectedVertices;
 };
