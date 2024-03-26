@@ -7,6 +7,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { ConfigModule } from '@nestjs/config';
 
+//TODO: add malicious attack protection with guard?helmet? with middlewares or interceptors
+//TODO: CORS, CSRF, and other security measures
+//TODO: add auth token, passport?
 @Module({
   imports: [
     ConfigModule.forRoot(),
