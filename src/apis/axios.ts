@@ -13,7 +13,10 @@ const axiosKakaoMap = axios.create({
 const axiosKakaoNav = axios.create({
   baseURL: 'https://apis-navi.kakaomobility.com/v1/',
   timeout: 8000,
-  headers: { Authorization: process.env.KAKAO_API_KEY },
+  headers: {
+    Authorization: process.env.KAKAO_API_KEY,
+    'Content-Type': 'application/json',
+  },
 });
 
 const errorHandler = (error: AxiosError) => {
