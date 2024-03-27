@@ -3,6 +3,10 @@ import { KakaoKeywordSearchQuery } from './types/kakaoApiTypes';
 import { KAKAO_KEYWORD_SEARCH_URL } from '../config/consts';
 
 const kakaoKeywordSearch = async (params: KakaoKeywordSearchQuery) => {
+  //FIXME: seperate logic for purposes
+  //1. get coordiates from address
+  //2. search for keywords => more optional parameters has to be considered!! (페이지량, 정보량 등...)
+  //3. ETC...
   try {
     const res = await axiosKakaoMap.get(KAKAO_KEYWORD_SEARCH_URL, {
       params,
