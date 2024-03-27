@@ -1,5 +1,5 @@
 export default interface SelectVerticesParams {
-  vertexList: string[][];
+  path: string[][];
   totalDistance: number;
   radius: number;
 }

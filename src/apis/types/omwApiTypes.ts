@@ -9,8 +9,9 @@ import { KakaoDrivingPathQuery } from './kakaoApiTypes';
 export interface SearchOnPathQuery {
   query: string;
   category?: string;
-  radius: string;
-  vertexList: string[][];
+  radius: number; //radius has to be given as int, in 'meter' unit
+  path: string[][]; //[ [x1, y1], [x2, y2], ... ]
+  totalDistance: number;
 }
 
 export interface SearchOnPathResult {
