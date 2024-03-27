@@ -2,7 +2,7 @@ import SelectVerticesParams from './types';
 
 //TODO: to improve performance, have to handle different cases according to whether the road is EXPRESSWAY or not. (unit distance becomes  different)
 const selectVertices = ({
-  vertexList,
+  path,
   totalDistance,
   radius,
 }: SelectVerticesParams) => {
@@ -10,7 +10,7 @@ const selectVertices = ({
   // radius is set so that selectedVertices.length ~<= 10
   // skipCount = how many indexes to skip
   // unitDistance * skipCount <= radius
-  const totalCount: number = vertexList.length;
+  const totalCount: number = path.length;
   const unitDistance: number = totalDistance / (totalCount - 1); //average distance between two vertices
   const selectedVertices: string[][] = [];
 
@@ -18,10 +18,10 @@ const selectVertices = ({
 
   let curIdx = 0;
   while (curIdx < totalCount) {
-    selectedVertices.push(vertexList[curIdx]);
+    selectedVertices.push(path[curIdx]);
     curIdx += skipCount;
   }
-  selectedVertices.push(vertexList[totalCount - 1]);
+  selectedVertices.push(path[totalCount - 1]);
 
   return selectedVertices;
 };
