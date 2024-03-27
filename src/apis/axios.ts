@@ -1,20 +1,22 @@
 import { HttpException } from '@nestjs/common';
 import axios, { AxiosError } from 'axios';
-import { config } from 'dotenv';
-
-config();
+import {
+  KAKAO_MAP_BASE_URL,
+  KAKAO_NAV_BASE_URL,
+  KAKAO_API_KEY,
+} from 'src/config/consts';
 
 const axiosKakaoMap = axios.create({
-  baseURL: 'https://dapi.kakao.com/v2/local/',
+  baseURL: KAKAO_MAP_BASE_URL,
   timeout: 6000,
-  headers: { Authorization: process.env.KAKAO_API_KEY },
+  headers: { Authorization: KAKAO_API_KEY },
 });
 
 const axiosKakaoNav = axios.create({
-  baseURL: 'https://apis-navi.kakaomobility.com/v1/',
+  baseURL: KAKAO_NAV_BASE_URL,
   timeout: 8000,
   headers: {
-    Authorization: process.env.KAKAO_API_KEY,
+    Authorization: KAKAO_API_KEY,
     'Content-Type': 'application/json',
   },
 });
