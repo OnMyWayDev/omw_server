@@ -39,9 +39,9 @@ export class KakaoController {
     return await this.kakaoService.getDrivingRoute(params);
   }
 
-  @Get('search-on-path')
-  //Search query on the path
-  async getSearchOnPath(@Query() params: SearchOnPathQuery) {
-    return await this.kakaoService.searchOnPath(params);
-  }
+  // @Get('search-on-path')
+  // //Search query on the path
+  // async getSearchOnPath(@Query() params: SearchOnPathQuery) {
+  //   return await this.kakaoService.searchOnPath(params);
+  // }
 }
