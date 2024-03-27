@@ -29,3 +29,6 @@ type DrivingRouteDetail = {
 export interface GetDrivingRouteResult {
   result: DrivingRouteDetail;
 }
+
+export interface GetStopByDurationQuery extends KakaoDrivingPathQuery {}
+export type GetStopByDurationResult = number; //returns number in 'minute' unit

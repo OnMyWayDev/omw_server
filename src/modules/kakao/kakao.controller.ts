@@ -5,7 +5,10 @@ import {
   KakaoDrivingPathQuery,
   KakaoGetAddressQuery,
 } from 'src/apis/types/kakaoApiTypes';
-import { SearchOnPathQuery } from 'src/apis/types/omwApiTypes';
+import {
+  GetStopByDurationQuery,
+  SearchOnPathQuery,
+} from 'src/apis/types/omwApiTypes';
 
 @Controller('kakao')
 export class KakaoController {
@@ -13,7 +16,7 @@ export class KakaoController {
 
   private readonly logger = new Logger(KakaoController.name);
 
-  @Get('to-addr')
+  @Get('get-address')
   //returns list of candidate addresss (string value) with input coordinates (make sure coord system has to be converted)
   //TODO: pipes can be added here, for validation
   async getAddress(@Query() params: KakaoGetAddressQuery) {
@@ -44,5 +47,10 @@ export class KakaoController {
   //TODO: add type validation (radius,, etc.)
   async getSearchOnPath(@Body() params: SearchOnPathQuery) {
     return await this.kakaoService.searchOnPath(params);
+  }
+
+  @Get('stopby-duration')
+  async getStopbyDuration(@Query() params: GetStopByDurationQuery) {
+    return await this.kakaoService.getStopByDuration(params);
   }
 }
