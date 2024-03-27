@@ -48,32 +48,33 @@ export class KakaoService {
     //FIXME: params validation
     //TODO: list up exceptions (for client), add exception handling logic
     const data = await kakaoGetDrivingRoute(params);
-    if (data.routes[0].result_code === 0) {
-      //Route Search Succeeded
-      const res = { result: { duration: -1, distance: -1, path: [] } };
-      const route = data.routes[0];
-      const duration = route.summary.duration;
-      const distance = route.summary.distance;
-
-      const tmpPath = [];
-      route.sections.forEach((section) => {
-        const roads = section.roads;
-        roads.forEach((road) => {
-          tmpPath.push(...road.vertexes);
-        });
-      });
-
-      const path = tmpPath.reduce((acc, cur, idx) => {
-        if (idx % 2 === 0) acc.push([cur]);
-        else acc[acc.length - 1].push(cur);
-        return acc;
-      }, []);
-      res.result = { duration, distance, path };
-
-      return res;
+    if (data.routes[0].result_code !== 0) {
+      //If Route Search Failed, FIXME: add exception handling logic
+      throw new HttpException(data.routes[0].result_msg, 400);
     }
-    //Else if Route Search Failed, FIXME: add exception handling logic
-    throw new HttpException(data.routes[0].result_msg, 400);
+    //Route Search Succeeded
+    const res = { result: { duration: -1, distance: -1, path: [] } };
+    const route = data.routes[0];
+    const duration = route.summary.duration;
+    const distance = route.summary.distance;
+
+    const tmpPath = [];
+    route.sections.forEach((section) => {
+      const roads = section.roads;
+      roads.forEach((road) => {
+        tmpPath.push(...road.vertexes);
+      });
+    });
+
+    const path = tmpPath.reduce((acc, cur, idx) => {
+      if (idx % 2 === 0) acc.push([cur]);
+      else acc[acc.length - 1].push(cur);
+      return acc;
+    }, []);
+
+    res.result = { duration, distance, path };
+
+    return res;
   }
 
   async getStopByDuration(params: KakaoDrivingPathQuery) {
@@ -83,7 +84,11 @@ export class KakaoService {
       summary: true,
       alternatives: false,
     });
-    //extract duration
+    if (data.routes[0].result_code !== 0) {
+      //Route Search Failed
+      //TODO: add exception handling logic
+      throw new HttpException(data.routes[0].result_msg, 400);
+    }
     return data.routes[0].summary.duration;
   }
 
