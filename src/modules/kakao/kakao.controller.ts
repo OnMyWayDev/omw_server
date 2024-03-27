@@ -13,7 +13,7 @@ export class KakaoController {
 
   private readonly logger = new Logger(KakaoController.name);
 
-  @Get('coord-to-addr')
+  @Get('to-addr')
   //returns list of candidate addresss (string value) with input coordinates (make sure coord system has to be converted)
   //TODO: pipes can be added here, for validation
   async getAddress(@Query() params: KakaoGetAddressQuery) {
