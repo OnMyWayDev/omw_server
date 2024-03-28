@@ -1,5 +1,25 @@
 # OMW_BE
 
+## Prerequisites
+
+`Node.js` = v18.16.1
+If not installed, please install it using `nvm install 18.16.1`
+This project uses `pnpm` as package manager. If not installed, please install it using `npm install -g pnpm`
+
+## Automatic Node Version Switch
+
+The repository contains `.nvmrc` file. By adding the script below to your bash configuration file (e.g.: `.zshrc`) it will automatically prompt nvm to switch to the required node version in given project.
+
+```bash
+# detect node version when navigating to projects that contain .nvmrc
+cd() {
+  builtin cd "$@"
+  if [[ -f .nvmrc ]]; then
+    nvm use
+  fi
+}
+```
+
 ## BackEnd Repository for OnMyWay application
 
 TBU
