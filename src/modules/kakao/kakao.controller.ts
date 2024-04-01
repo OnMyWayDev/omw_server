@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Logger,
+  Post,
+  Query,
+  UseFilters,
+  UseInterceptors,
+} from '@nestjs/common';
 import { KakaoService } from './kakao.service';
 import {
   KakaoKeywordSearchQuery,
@@ -9,8 +18,12 @@ import {
   GetStopByDurationQuery,
   SearchOnPathQuery,
 } from 'src/apis/types/omwApiTypes';
+import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception-filter/http-exception-filter.filter';
 
 @Controller('kakao')
+@UseInterceptors(SuccessInterceptor)
+@UseFilters(HttpExceptionFilter)
 export class KakaoController {
   constructor(private readonly kakaoService: KakaoService) {}
 
