@@ -41,7 +41,7 @@ jobs:
           SLACK_TITLE: 'DEPLOYMENT SUCCESS in Development Environment'
           SLACK_MESSAGE: '${{ github.repository }}'
 
-      - name: Notify to Slack on Failure
+      - name: Notify to Slack on Failure,,
         if: ${{ failure() }}
         uses: rtCamp/action-slack-notify@v2.2.0
         env:
