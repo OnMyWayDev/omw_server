@@ -25,7 +25,7 @@ jobs:
           npm install -g pnpm
           pnpm install
 
-      - name: Kill existing pm2 process
+      - name: Kill existing process
         run: sudo pm2 kill
 
       - name: Build & Run Development Server
