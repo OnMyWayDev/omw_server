@@ -33,3 +33,19 @@ jobs:
 
       # - name: Build & Run Development Server
       #   run: pnpm start:prod
+
+      # - name: Notify to Slack
+      #   if: ${{ success() }}
+      #   uses: rtCamp/action-slack-notify@v2.2.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.OMW_SLACK_WEBHOOK }}
+      #     SLACK_TITLE: 'DEPLOYMENT SUCCESS in Production Environment'
+      #     SLACK_MESSAGE: '${{ github.repository }}'
+
+      # - name: Notify to Slack
+      #   if: ${{ failure() }}
+      #   uses: rtCamp/action-slack-notify@v2.2.0
+      #   env:
+      #     SLACK_WEBHOOK: ${{ secrets.OMW_SLACK_WEBHOOK }}
+      #     SLACK_TITLE: 'DEPLOYMENT FAILED in Production Environment'
+      #     SLACK_MESSAGE: '${{ github.repository }}'
