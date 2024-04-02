@@ -1,0 +1,32 @@
+name: Deploy to Development Server
+on:
+  push:
+    branches: ['develop']
+
+jobs:
+  build:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version-file: .nvmrc
+      - name: Add .env file
+        run: |
+          touch .env
+          echo "${{ secrets.DEV_ENV }}" > .env
+
+      - name: Install pnpm and dependencies
+        run: |
+          npm install -g pnpm
+          pnpm install
+
+      - name: Kill existing pm2 process
+        run: pm2 kill
+
+      - name: Build & Run Development Server
+        run: pnpm start:prod
