@@ -26,7 +26,9 @@ jobs:
           pnpm install
 
       - name: Kill existing pm2 process
-        run: pm2 kill
+        run: sudo pm2 kill
 
       - name: Build & Run Development Server
-        run: pnpm start:prod
+        run: |
+          pnpm build
+          sudo pnpm start:prod
