@@ -20,10 +20,12 @@ import {
 } from 'src/apis/types/omwApiTypes';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception-filter/http-exception-filter.filter';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('kakao')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter)
+@ApiTags('Main')
 export class KakaoController {
   constructor(private readonly kakaoService: KakaoService) {}
 

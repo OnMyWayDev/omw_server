@@ -31,6 +31,8 @@ async function bootstrap() {
     .setTitle('OnMyWay')
     .setDescription('REST API description for OnMyWay application')
     .setVersion('1.0.0')
+    .addTag('Main')
+    .addTag('User')
     .build();
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
