@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/exceptions/http-exception-filter/http-exception-filter.filter';
 import { SuccessInterceptor } from './common/interceptors/success.interceptor';
 import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
+import * as expressBasicAuth from 'express-basic-auth';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,15 @@ async function bootstrap() {
   app.useGlobalInterceptors(new SuccessInterceptor());
   app.use(json({ limit: '5mb' }));
   app.use(urlencoded({ limit: '5mb', extended: true }));
+  app.use(
+    ['/docs', '/docs-json'],
+    expressBasicAuth({
+      challenge: true,
+      users: {
+        [process.env.SWAGGER_USER]: process.env.SWAGGER_PASSWORD,
+      },
+    }),
+  );
   // app.enableCors({
   //   origin: true,
   //   credentials: true,
@@ -24,6 +34,7 @@ async function bootstrap() {
     .build();
   const document: OpenAPIObject = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('docs', app, document);
+
   const PORT = process.env.PORT || 3000;
   await app.listen(PORT);
 }
