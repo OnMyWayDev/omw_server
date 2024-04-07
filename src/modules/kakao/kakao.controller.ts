@@ -25,7 +25,7 @@ import { ApiTags } from '@nestjs/swagger';
 @Controller('kakao')
 @UseInterceptors(SuccessInterceptor)
 @UseFilters(HttpExceptionFilter)
-@ApiTags('Main')
+@ApiTags('Kakao(Temp)')
 export class KakaoController {
   constructor(private readonly kakaoService: KakaoService) {}
 
