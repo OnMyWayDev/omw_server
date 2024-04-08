@@ -24,8 +24,7 @@ export class MapController {
   })
   @ApiOperation({ summary: 'Convert coordinate to address(es)' })
   async getAddress(@Query() params: GetAddressRequestDto) {
-    const res = await this.mapService.getAddress(params);
-    return res;
+    return await this.mapService.getAddress(params);
   }
 
   @Get('keyword-search')
@@ -39,7 +38,21 @@ export class MapController {
       'returns list of place informations with input keyword, address, etc.',
   })
   async getKeywordSearch(@Query() params: GetKeywordSearchRequestDto) {
-    const res = await this.mapService.getKeywordSearch(params);
-    return res;
+    return await this.mapService.getKeywordSearch(params);
+  }
+
+  @Get('driving-route')
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    // type: GetKeywordSearchResponseDto,
+  })
+  //returns driving route information with input start and end coordinates (temporarily, no stopover)
+  async getDrivingRoute(
+    @Query()
+    // params: KakaoDrivingPatQuery, //FIXME: fix me
+    params,
+  ) {
+    return await this.mapService.getDrivingRoute(params);
   }
 }
