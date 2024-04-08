@@ -9,13 +9,20 @@ import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
 @Injectable()
 export class MapService {
   async getAddress(params: GetAddressRequestDto) {
-    const data = await kakaoGetAddress(params);
-    return data;
+    const res = await kakaoGetAddress(params);
+    if (res) {
+      const data = res.documents.map((doc) => ({
+        road_address: doc.road_address.address_name,
+        address: doc.address.address_name,
+      }));
+      return data;
+    }
+    return res;
   }
 
   async getKeywordSearch(params: GetKeywordSearchRequestDto) {
     const data = await kakaoKeywordSearch(params);
-    //TODO: add more logics here
-    return data;
+    //FIXME: add more logics here, fine tune parameters (accuracy, priority, etc.)
+    return data?.documents;
   }
 }

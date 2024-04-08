@@ -5,16 +5,23 @@ import {
   GetAddressRequestDto,
   GetKeywordSearchRequestDto,
 } from './dto/map.request.dto';
+import {
+  GetAddressResponseDto,
+  GetKeywordSearchResponseDto,
+} from './dto/map.response.dto';
 
 @Controller('map')
 @ApiTags('Main')
 export class MapController {
   constructor(private readonly mapService: MapService) {}
-
-  private readonly logger = new Logger(MapController.name);
+  // private readonly logger = new Logger(MapController.name);
 
   @Get('get-address')
-  @ApiResponse({ status: 200, description: 'Success' })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: GetAddressResponseDto,
+  })
   @ApiOperation({ summary: 'Convert coordinate to address(es)' })
   async getAddress(@Query() params: GetAddressRequestDto) {
     const res = await this.mapService.getAddress(params);
@@ -22,7 +29,11 @@ export class MapController {
   }
 
   @Get('keyword-search')
-  @ApiResponse({ status: 200, description: 'Success' })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: GetKeywordSearchResponseDto,
+  })
   @ApiOperation({
     summary:
       'returns list of place informations with input keyword, address, etc.',

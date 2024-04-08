@@ -6,6 +6,7 @@ import { UserRepository } from './user.respository';
 @Injectable()
 export class UserService {
   constructor(private readonly userRepository: UserRepository) {}
+
   async signUp(body: UserSignUpDto) {
     const { email, password } = body;
     const isUserExist = await this.userRepository.existsByEmail(email);
