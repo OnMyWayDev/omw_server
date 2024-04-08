@@ -16,9 +16,9 @@ import { MapModule } from './modules/map/map.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    // MongooseModule.forRoot(process.env.MONGO_DB_URI), //connect to MongoDB, TODO: utilize DB for logging and user auth, current db name : ~/omw
+    MongooseModule.forRoot(process.env.MONGO_DB_URI), //connect to MongoDB, TODO: utilize DB for logging and user auth, current db name : ~/omw
     KakaoModule,
-    // UserModule,
+    UserModule,
     MapModule,
   ],
   controllers: [AppController],
@@ -28,6 +28,6 @@ export class AppModule implements NestModule {
   private readonly isDev: boolean = process.env.MODE === 'dev' ? true : false;
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes('*');
-    // mongoose.set('debug', this.isDev); //debugging mongoose in development
+    mongoose.set('debug', this.isDev); //debugging mongoose in development
   }
 }
