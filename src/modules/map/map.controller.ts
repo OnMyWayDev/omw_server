@@ -3,6 +3,7 @@ import { MapService } from './map.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   GetAddressRequestDto,
+  GetDrivingRouteRequestDto,
   GetKeywordSearchRequestDto,
 } from './dto/map.request.dto';
 import {
@@ -35,7 +36,7 @@ export class MapController {
   })
   @ApiOperation({
     summary:
-      'returns list of place informations with input keyword, address, etc.',
+      'Returns list of place informations with input keyword, address, etc.',
   })
   async getKeywordSearch(@Query() params: GetKeywordSearchRequestDto) {
     return await this.mapService.getKeywordSearch(params);
@@ -47,11 +48,12 @@ export class MapController {
     description: 'Success',
     // type: GetKeywordSearchResponseDto,
   })
-  //returns driving route information with input start and end coordinates (temporarily, no stopover)
+  @ApiOperation({
+    summary: 'Returns driving route information',
+  })
   async getDrivingRoute(
     @Query()
-    // params: KakaoDrivingPatQuery, //FIXME: fix me
-    params,
+    params: GetDrivingRouteRequestDto,
   ) {
     return await this.mapService.getDrivingRoute(params);
   }

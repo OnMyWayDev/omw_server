@@ -62,12 +62,35 @@ export class GetKeywordSearchRequestDto {
 
 export class GetDrivingRouteRequestDto {
   //FIXME: to include other options (using hipass, local roads only,, etc.)
-  //FIXME: merge startX,startY and endX,endY
-  origin: string; //e.g) "127.111202,37.394912"
-  destination: string; //e.g) "127.111202,37.394912"
-  waypoints?: string; //waypoints: 경유지 수만큼 "{X좌표},{Y좌표},,name={경유지명}" 또는 "{X좌표},{Y좌표},"를 | 또는 %7C로 연결하여 입력(예:127.111202,37.394912,name=판교역 | 127.112275,37.392815)
-  summary?: boolean;
-  alternatives?: boolean; //alternative has to be false. (one way to show for one preference of user)
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '127.111202,37.394912',
+    description: 'origin coordinates in format of "{X좌표},{Y좌표}"',
+    required: true,
+  })
+  origin: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '127.111202,37.394912',
+    description: 'destination coordinates in format of "{X좌표},{Y좌표}"',
+    required: true,
+  })
+  destination: string;
+
+  @ApiProperty({
+    example: '127.111202,37.394912 | 127.112275,37.392815',
+    description: '경유지 수만큼 "{X좌표},{Y좌표}"를 | 또는 %7C로 연결하여 입력',
+    required: false,
+  })
+  waypoints?: string;
+  // summary?: boolean;
+  // alternatives?: boolean; //alternative has to be true to get multiple routes
+  @ApiProperty({
+    example: 'toll',
+    description: 'toll: 유료 도로 회피, motorway: 자동차 전용 도로 회피',
+    required: false,
+  })
   avoid?: 'toll' | 'motorway'; //toll: 유료 도로, motorway: 자동차 전용 도로
-  priority?: 'RECOMMEND' | 'TIME' | 'DISTANCE'; //추천경로, 최단시간, 최단거리
+  // priority?: 'RECOMMEND' | 'TIME' | 'DISTANCE'; //추천경로, 최단시간, 최단거리 -> FIXME: Api 상에서 세 개 다 보내기 and 결과 리스트로 반환해주기
 }
