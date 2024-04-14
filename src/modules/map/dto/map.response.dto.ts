@@ -54,7 +54,7 @@ export class GetKeywordSearchResponseDto {
 }
 
 class DrivingRouteDetail {
-  @ApiProperty({ example: 60, description: 'in minutes' })
+  @ApiProperty({ example: 60, description: 'in seconds' })
   duration: number;
   @ApiProperty({ example: 5000, description: 'in meters' })
   distance: number;
