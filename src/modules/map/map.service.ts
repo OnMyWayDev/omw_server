@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import {
   GetAddressRequestDto,
+  GetDrivingRouteRequestDto,
   GetKeywordSearchRequestDto,
 } from './dto/map.request.dto';
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
@@ -28,14 +29,14 @@ export class MapService {
     return data?.documents;
   }
 
-  async getDrivingRoute(params: GetDrivingRouteQuery) {
-    //FIXME: fix me
+  async getDrivingRoute(params: GetDrivingRouteRequestDto) {
+    //FIXME: fix me -> Request Dto has been chagned!
     const data = await kakaoGetDrivingRoute(params);
     if (data.routes[0].result_code !== 0) {
       throw new HttpException(data.routes[0].result_msg, 400);
     }
 
-    const res = { result: { duration: -1, distance: -1, path: [] } };
+    let res = { duration: -1, distance: -1, path: [] };
     const route = data.routes[0];
     const duration = route.summary.duration;
     const distance = route.summary.distance;
@@ -54,7 +55,7 @@ export class MapService {
       return acc;
     }, []);
 
-    res.result = { duration, distance, path };
+    res = { duration, distance, path };
 
     return res;
   }

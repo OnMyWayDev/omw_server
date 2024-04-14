@@ -8,6 +8,7 @@ import {
 } from './dto/map.request.dto';
 import {
   GetAddressResponseDto,
+  GetDrivingRouteResponseDto,
   GetKeywordSearchResponseDto,
 } from './dto/map.response.dto';
 
@@ -29,14 +30,14 @@ export class MapController {
   }
 
   @Get('keyword-search')
+  @ApiOperation({
+    summary:
+      'Returns list of place informations with input keyword, address, etc.',
+  })
   @ApiResponse({
     status: 200,
     description: 'Success',
     type: GetKeywordSearchResponseDto,
-  })
-  @ApiOperation({
-    summary:
-      'Returns list of place informations with input keyword, address, etc.',
   })
   async getKeywordSearch(@Query() params: GetKeywordSearchRequestDto) {
     return await this.mapService.getKeywordSearch(params);
@@ -46,7 +47,7 @@ export class MapController {
   @ApiResponse({
     status: 200,
     description: 'Success',
-    // type: GetKeywordSearchResponseDto,
+    type: GetDrivingRouteResponseDto,
   })
   @ApiOperation({
     summary: 'Returns driving route information',

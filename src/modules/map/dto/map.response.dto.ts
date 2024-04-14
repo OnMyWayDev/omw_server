@@ -52,3 +52,27 @@ export class GetKeywordSearchResponseDto {
   })
   data: PlaceType[];
 }
+
+class DrivingRouteDetail {
+  @ApiProperty({ example: 60, description: 'in minutes' })
+  duration: number;
+  @ApiProperty({ example: 5000, description: 'in meters' })
+  distance: number;
+  @ApiProperty({
+    example: [
+      [127.021344106907, 37.5858189680129],
+      [127.021344106907, 37.5858189680129],
+    ],
+    description: '[[x1, y1], [x2, y2], ...]',
+  })
+  path: string[][];
+}
+
+export class GetDrivingRouteResponseDto {
+  @ApiProperty({ example: true })
+  success: boolean;
+  @ApiProperty({
+    type: DrivingRouteDetail,
+  })
+  data: DrivingRouteDetail;
+}
