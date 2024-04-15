@@ -131,12 +131,16 @@ export class GetStopByDurationResponseDto {
 }
 
 class searchOnPathDataDetail {
-  @ApiProperty({
-    description: 'TBU',
-    example: 'TBU',
-  })
-  TBU: string;
-  // [key: string]: string;
+  @ApiProperty({ example: '호산나교회' })
+  place_name: string;
+  @ApiProperty({ example: '부산 강서구 명지동 3245-5' })
+  address_name: string;
+  @ApiProperty({ example: 'http://place.map.kakao.com/8162856' })
+  place_url: string;
+  @ApiProperty({ example: '128.907353175642' })
+  x: string;
+  @ApiProperty({ example: '35.0859058483527' })
+  y: string;
 }
 
 export class SearchOnPathResponseDto {

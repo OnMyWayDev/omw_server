@@ -160,9 +160,10 @@ export class MapService {
 
     const searchResults = [];
     successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
-      result.value.documents.map((document) => {
+      result.value.map((document) => {
         searchResults.push({
           place_name: document.place_name,
+          address_name: document.address_name,
           place_url: document.place_url,
           x: document.x,
           y: document.y,
