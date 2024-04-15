@@ -122,3 +122,16 @@ export class GetDrivingRouteResponseDto {
   })
   data: DrivingRouteDetail[];
 }
+
+class StopByDurationDetail {
+  @ApiProperty({ example: 3660, description: 'in seconds' })
+  duration: number;
+}
+export class GetStopByDurationResponseDto {
+  @ApiProperty({ example: true })
+  success: boolean;
+  @ApiProperty({
+    type: StopByDurationDetail,
+  })
+  data: StopByDurationDetail;
+}

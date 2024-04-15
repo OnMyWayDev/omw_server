@@ -1,15 +1,17 @@
-import { Controller, Get, Logger, Query } from '@nestjs/common';
+import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
 import { MapService } from './map.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
   GetAddressRequestDto,
   GetDrivingRouteRequestDto,
   GetKeywordSearchRequestDto,
+  GetStopByDurationRequestDto,
 } from './dto/map.request.dto';
 import {
   GetAddressResponseDto,
   GetDrivingRouteResponseDto,
   GetKeywordSearchResponseDto,
+  GetStopByDurationResponseDto,
 } from './dto/map.response.dto';
 
 @Controller('map')
@@ -58,5 +60,25 @@ export class MapController {
     params: GetDrivingRouteRequestDto,
   ) {
     return await this.mapService.getDrivingRoute(params);
+  }
+
+  // @Post('search-on-path')
+  // //Search query on the path
+  // async getSearchOnPath(@Body() params: SearchOnPathQuery) {
+  //   return await this.mapService.searchOnPath(params);
+  // }
+
+  @Get('stopby-duration')
+  @ApiOperation({
+    summary:
+      'Returns minimum duration when stopping by a desired place on the route.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: GetStopByDurationResponseDto,
+  })
+  async getStopbyDuration(@Query() params: GetStopByDurationRequestDto) {
+    return await this.mapService.getStopByDuration(params);
   }
 }

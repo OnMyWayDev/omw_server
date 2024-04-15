@@ -93,3 +93,13 @@ export class GetDrivingRouteRequestDto {
   avoid?: 'toll' | 'motorway'; //toll: 유료 도로, motorway: 자동차 전용 도로
   // priority?: 'RECOMMEND' | 'TIME' | 'DISTANCE'; //추천경로, 최단시간, 최단거리 -> FIXME: Api 상에서 세 개 다 보내기 and 결과 리스트로 반환해주기
 }
+
+export class GetStopByDurationRequestDto extends GetDrivingRouteRequestDto {
+  @IsNotEmpty()
+  @ApiProperty({
+    example: '127.111202,37.394912',
+    description: 'Stopby Place coordinates in format of "{X좌표},{Y좌표}"',
+    required: true,
+  })
+  stopby: string;
+}
