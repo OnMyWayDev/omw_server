@@ -1,3 +1,4 @@
+import { HttpException } from '@nestjs/common';
 import SelectVerticesParams from './types';
 
 //TODO: to improve performance, have to handle different cases according to whether the road is EXPRESSWAY or not. (unit distance becomes  different)
@@ -15,6 +16,8 @@ const selectVertices = ({
   const selectedVertices: string[][] = [];
 
   const skipCount: number = Math.floor(radius / unitDistance);
+  if (skipCount === 0)
+    throw new HttpException('radius is too small to search on the path', 400);
 
   let curIdx = 0;
   while (curIdx < totalCount) {
