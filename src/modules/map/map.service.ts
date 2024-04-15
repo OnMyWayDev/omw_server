@@ -75,6 +75,7 @@ export class MapService {
   }
 
   async getStopByDuration(params: GetStopByDurationRequestDto) {
+    //FIXME: exception handling required (when requesting API to Kakao!!! + Error codes)
     const { stopby, waypoints, ...rest } = params;
     const waypointsList = [];
     if (waypoints) {
