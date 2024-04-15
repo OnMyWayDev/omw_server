@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsNotEmpty } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class GetAddressRequestDto {
   @IsString()
@@ -102,4 +102,55 @@ export class GetStopByDurationRequestDto extends GetDrivingRouteRequestDto {
     required: true,
   })
   stopby: string;
+}
+
+export class searchOnPathRequestDto {
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'search query on the path',
+    example: '사진관',
+    required: true,
+    type: String,
+  })
+  query: string;
+
+  @IsNotEmpty()
+  @ApiProperty({
+    description: 'path to search on',
+    example: [
+      [127.021344106907, 37.5858189680129],
+      [127.021344106907, 37.5858189680129],
+    ],
+    required: true,
+    type: [[String]],
+  })
+  path: string[][]; //[ [x1, y1], [x2, y2], ... ]
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({
+    description: 'total distance of the path, in meters', //is it in meters?
+    example: 5000,
+    required: true,
+    type: Number,
+  })
+  totalDistance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @ApiProperty({
+    description:
+      'in meter, has to be in range of [ totalDistance / 10, Math.min(20000, totalDistance) ]',
+    example: 1500,
+    required: true,
+    type: Number,
+  })
+  radius: number; //radius has to be given as int, in 'meter' unit
+
+  @ApiProperty({
+    description: 'category',
+    example: '현재는 사용X',
+    required: false,
+  })
+  category?: string; //to be implemented later
 }

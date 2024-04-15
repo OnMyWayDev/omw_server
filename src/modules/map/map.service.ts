@@ -4,13 +4,19 @@ import {
   GetDrivingRouteRequestDto,
   GetKeywordSearchRequestDto,
   GetStopByDurationRequestDto,
+  searchOnPathRequestDto,
 } from './dto/map.request.dto';
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
 import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
-import { GetDrivingRouteQuery } from 'src/apis/types/omwApiTypes';
+import {
+  GetDrivingRouteQuery,
+  SearchOnPathQuery,
+} from 'src/apis/types/omwApiTypes';
 import { GetDrivingRouteResponseDto } from './dto/map.response.dto';
 import { ROUTE_PRIORITY_LIST } from 'src/config/consts';
+import removeDuplicate from 'src/helpers/removeDuplicate';
+import selectVertices from 'src/helpers/selectVertices';
 
 @Injectable()
 export class MapService {
@@ -118,7 +124,54 @@ export class MapService {
     const candidates = successfulResults.map(
       (result: PromiseFulfilledResult<any>) => result.value,
     );
-    const res = { duration: Math.min(...candidates) };
+    return Math.min(...candidates);
+  }
+
+  async searchOnPath(params: searchOnPathRequestDto) {
+    //FIXME: add validation to Radius!!! (It has to be 0~20000km, and // radius is set so that selectedVertices.length ~<= 10)
+    //FIXME: add validation => Min : Math.floor(totalDistance / radius) <= 10, Max : Min(20000, totalDistance) // [ totalDistance / 10, Math.min(20000, totalDistance) ]
+    const { query, category, radius, path, totalDistance } = params;
+    const selectedVertices: string[][] = selectVertices({
+      path,
+      totalDistance,
+      radius: radius || 20000,
+    });
+
+    // radius is set so that selectedVertices.length ~<= 10
+
+    const promises = selectedVertices.map((vertex) =>
+      this.getKeywordSearch({
+        query: query,
+        x: vertex[0],
+        y: vertex[1],
+        radius: radius.toString(),
+        category,
+      }),
+    );
+
+    const results = await Promise.allSettled(promises);
+    const successfulResults = results.filter(
+      (result) => result.status === 'fulfilled',
+    );
+
+    if (successfulResults.length < promises.length - 2) {
+      throw new Error('More than 2 requests failed');
+    }
+
+    const searchResults = [];
+    successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
+      result.value.documents.map((document) => {
+        searchResults.push({
+          place_name: document.place_name,
+          place_url: document.place_url,
+          x: document.x,
+          y: document.y,
+        });
+      });
+    });
+
+    const res = removeDuplicate(searchResults);
+
     return res;
   }
 }

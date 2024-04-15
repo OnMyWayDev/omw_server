@@ -123,15 +123,25 @@ export class GetDrivingRouteResponseDto {
   data: DrivingRouteDetail[];
 }
 
-class StopByDurationDetail {
-  @ApiProperty({ example: 3660, description: 'in seconds' })
-  duration: number;
-}
 export class GetStopByDurationResponseDto {
   @ApiProperty({ example: true })
   success: boolean;
+  @ApiProperty({ example: 3660, description: 'minimum duration, in seconds' })
+  data: number;
+}
+
+class searchOnPathDataDetail {
   @ApiProperty({
-    type: StopByDurationDetail,
+    description: 'TBU',
+    example: 'TBU',
   })
-  data: StopByDurationDetail;
+  TBU: string;
+  // [key: string]: string;
+}
+
+export class SearchOnPathResponseDto {
+  @ApiProperty({ example: true })
+  success: boolean;
+  @ApiProperty({ type: [searchOnPathDataDetail] })
+  data: searchOnPathDataDetail[];
 }

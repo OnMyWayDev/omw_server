@@ -6,12 +6,14 @@ import {
   GetDrivingRouteRequestDto,
   GetKeywordSearchRequestDto,
   GetStopByDurationRequestDto,
+  searchOnPathRequestDto,
 } from './dto/map.request.dto';
 import {
   GetAddressResponseDto,
   GetDrivingRouteResponseDto,
   GetKeywordSearchResponseDto,
   GetStopByDurationResponseDto,
+  SearchOnPathResponseDto,
 } from './dto/map.response.dto';
 
 @Controller('map')
@@ -62,11 +64,18 @@ export class MapController {
     return await this.mapService.getDrivingRoute(params);
   }
 
-  // @Post('search-on-path')
-  // //Search query on the path
-  // async getSearchOnPath(@Body() params: SearchOnPathQuery) {
-  //   return await this.mapService.searchOnPath(params);
-  // }
+  @Post('search-on-path')
+  @ApiOperation({
+    summary: 'Returns list of places on the path of the route.',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    type: SearchOnPathResponseDto,
+  })
+  async getSearchOnPath(@Body() params: searchOnPathRequestDto) {
+    return await this.mapService.searchOnPath(params);
+  }
 
   @Get('stopby-duration')
   @ApiOperation({
