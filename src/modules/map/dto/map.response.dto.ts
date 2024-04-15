@@ -54,6 +54,11 @@ export class GetKeywordSearchResponseDto {
 }
 
 class DrivingRouteDetail {
+  @ApiProperty({
+    example: 'RECOMMEND',
+    description: 'RECOMMEND, TIME, DISTANCE',
+  })
+  priority: 'RECOMMEND' | 'TIME' | 'DISTANCE';
   @ApiProperty({ example: 60, description: 'in seconds' })
   duration: number;
   @ApiProperty({ example: 5000, description: 'in meters' })
@@ -72,7 +77,48 @@ export class GetDrivingRouteResponseDto {
   @ApiProperty({ example: true })
   success: boolean;
   @ApiProperty({
-    type: DrivingRouteDetail,
+    example: [
+      {
+        priority: 'RECOMMEND',
+        duration: 60,
+        distance: 5000,
+        path: [
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+        ],
+      },
+      {
+        priority: 'TIME',
+        duration: 60,
+        distance: 5000,
+        path: [
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+        ],
+      },
+      {
+        priority: 'DISTANCE',
+        duration: 60,
+        distance: 5000,
+        path: [
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+          [127.021344106907, 37.5858189680129],
+        ],
+      },
+    ],
+    type: [DrivingRouteDetail],
   })
-  data: DrivingRouteDetail;
+  data: DrivingRouteDetail[];
 }

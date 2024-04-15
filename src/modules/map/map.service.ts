@@ -8,6 +8,8 @@ import kakaoGetAddress from 'src/apis/kakaoGetAddress';
 import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
 import { GetDrivingRouteQuery } from 'src/apis/types/omwApiTypes';
+import { GetDrivingRouteResponseDto } from './dto/map.response.dto';
+import { ROUTE_PRIORITY_LIST } from 'src/config/consts';
 
 @Injectable()
 export class MapService {
@@ -30,32 +32,42 @@ export class MapService {
   }
 
   async getDrivingRoute(params: GetDrivingRouteRequestDto) {
-    //FIXME: fix me -> Request Dto has been chagned!
-    const data = await kakaoGetDrivingRoute(params);
-    if (data.routes[0].result_code !== 0) {
-      throw new HttpException(data.routes[0].result_msg, 400);
-    }
+    const promises = ROUTE_PRIORITY_LIST.map(async (priority) => {
+      //FIXME: fix me -> Request Dto has been changed!
+      const data = await kakaoGetDrivingRoute(params);
+      if (data.routes[0].result_code !== 0) {
+        throw new HttpException(data.routes[0].result_msg, 400);
+      }
 
-    let res = { duration: -1, distance: -1, path: [] };
-    const route = data.routes[0];
-    const duration = route.summary.duration;
-    const distance = route.summary.distance;
+      const route = data.routes[0];
+      const duration = route.summary.duration;
+      const distance = route.summary.distance;
 
-    const tmpPath = [];
-    route.sections.forEach((section) => {
-      const roads = section.roads;
-      roads.forEach((road) => {
-        tmpPath.push(...road.vertexes);
+      const tmpPath = [];
+      route.sections.forEach((section) => {
+        const roads = section.roads;
+        roads.forEach((road) => {
+          tmpPath.push(...road.vertexes);
+        });
       });
+
+      const path = tmpPath.reduce((acc, cur, idx) => {
+        if (idx % 2 === 0) acc.push([cur]);
+        else acc[acc.length - 1].push(cur);
+        return acc;
+      }, []);
+
+      return { priority, duration, distance, path };
     });
 
-    const path = tmpPath.reduce((acc, cur, idx) => {
-      if (idx % 2 === 0) acc.push([cur]);
-      else acc[acc.length - 1].push(cur);
-      return acc;
-    }, []);
+    const results = await Promise.allSettled(promises);
+    const successfulResults = results.filter(
+      (result) => result.status === 'fulfilled',
+    );
 
-    res = { duration, distance, path };
+    const res = successfulResults.map(
+      (result: PromiseFulfilledResult<any>) => result.value,
+    );
 
     return res;
   }

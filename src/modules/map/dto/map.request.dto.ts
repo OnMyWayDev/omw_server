@@ -61,7 +61,6 @@ export class GetKeywordSearchRequestDto {
 }
 
 export class GetDrivingRouteRequestDto {
-  //FIXME: to include other options (using hipass, local roads only,, etc.)
   @IsNotEmpty()
   @ApiProperty({
     example: '127.111202,37.394912',

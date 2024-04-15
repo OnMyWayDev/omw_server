@@ -50,7 +50,8 @@ export class MapController {
     type: GetDrivingRouteResponseDto,
   })
   @ApiOperation({
-    summary: 'Returns driving route information',
+    summary:
+      'Returns driving route information list according to input parameters.',
   })
   async getDrivingRoute(
     @Query()
