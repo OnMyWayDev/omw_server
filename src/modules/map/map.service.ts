@@ -125,7 +125,7 @@ export class MapService {
   async searchOnPath(params: searchOnPathRequestDto) {
     //FIXME: add validation to Radius!!! (It has to be 0~20000km, and // radius is set so that selectedVertices.length ~<= 10)
     //FIXME: add validation => Min : Math.floor(totalDistance / radius) <= 10, Max : Min(20000, totalDistance) // [ totalDistance / 10, Math.min(20000, totalDistance) ]
-    const { query, category, radius, path, totalDistance } = params;
+    const { query, category_group_code, radius, path, totalDistance } = params;
     const selectedVertices: string[][] = selectVertices({
       path,
       totalDistance,
@@ -140,7 +140,7 @@ export class MapService {
         x: vertex[0],
         y: vertex[1],
         radius: radius.toString(),
-        category,
+        category_group_code,
       }),
     );
 

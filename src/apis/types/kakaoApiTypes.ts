@@ -1,6 +1,6 @@
 export interface KakaoKeywordSearchQuery {
   query: string;
-  category?: string; //FIXME: enum , literal type : https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
+  category_group_code?: string; //FIXME: enum , literal type : https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
   x?: string;
   y?: string;
   radius?: string;

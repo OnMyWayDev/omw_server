@@ -36,7 +36,7 @@ export class GetKeywordSearchRequestDto {
     description: 'category',
     required: false,
   })
-  category?: string; //FIXME: enum , literal type : https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
+  category_group_code?: string; //FIXME: enum , literal type : https://developers.kakao.com/docs/latest/ko/local/dev-guide#search-by-keyword
 
   @ApiProperty({
     example: '127.021344106907',
@@ -152,5 +152,5 @@ export class searchOnPathRequestDto {
     example: '현재는 사용X',
     required: false,
   })
-  category?: string; //to be implemented later
+  category_group_code?: string; //to be implemented later
 }
