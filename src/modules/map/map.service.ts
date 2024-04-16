@@ -9,11 +9,6 @@ import {
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
 import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
-import {
-  GetDrivingRouteQuery,
-  SearchOnPathQuery,
-} from 'src/apis/types/omwApiTypes';
-import { GetDrivingRouteResponseDto } from './dto/map.response.dto';
 import { ROUTE_PRIORITY_LIST } from 'src/config/consts';
 import removeDuplicate from 'src/helpers/removeDuplicate';
 import selectVertices from 'src/helpers/selectVertices';
