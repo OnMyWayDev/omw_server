@@ -17,7 +17,7 @@ import {
 import {
   GetStopByDurationQuery,
   SearchOnPathQuery,
-} from 'src/apis/types/omwApiTypes';
+} from 'src/legacy/omwApiTypes';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
 import { HttpExceptionFilter } from 'src/common/exceptions/http-exception-filter/http-exception-filter.filter';
 import { ApiTags } from '@nestjs/swagger';

@@ -11,7 +11,7 @@ import {
   GetDrivingRouteQuery,
   SearchOnPathQuery,
   GetDrivingRouteResult,
-} from 'src/apis/types/omwApiTypes';
+} from 'src/legacy/omwApiTypes';
 import removeDuplicate from 'src/helpers/removeDuplicate';
 import selectVertices from 'src/helpers/selectVertices';
 

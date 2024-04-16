@@ -1,4 +1,4 @@
-import { KakaoDrivingPathQuery } from './kakaoApiTypes';
+import { KakaoDrivingPathQuery } from '../apis/types/kakaoApiTypes';
 
 // export interface SearchOnPathQuery extends KakaoDrivingPathQuery {
 //   query: string;
