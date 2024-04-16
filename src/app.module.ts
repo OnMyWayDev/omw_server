@@ -1,7 +1,7 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { KakaoModule } from './modules/kakao/kakao.module';
+// import { KakaoModule } from './modules/kakao/kakao.module';
 import { LoggerMiddleware } from './common/middlewares/logger/logger.middleware';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
@@ -17,7 +17,7 @@ import { MapModule } from './modules/map/map.module';
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_DB_URI), //connect to MongoDB, TODO: utilize DB for logging and user auth, current db name : ~/omw
-    KakaoModule,
+    // KakaoModule,
     UserModule,
     MapModule,
   ],
