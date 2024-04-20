@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 class AddressType {
   @ApiProperty({ example: '서울특별시 강남구 테헤란로 53' })
-  road_address: string;
+  road_address: string | undefined;
   @ApiProperty({ example: '서울특별시 강남구 역삼동 102-1' })
   address: string;
 }

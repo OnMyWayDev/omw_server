@@ -19,7 +19,7 @@ export class MapService {
     const res = await kakaoGetAddress(params);
     if (res) {
       const data = res.documents.map((doc) => ({
-        road_address: doc.road_address.address_name,
+        road_address: doc.road_address?.address_name,
         address: doc.address.address_name,
       }));
       return data;
