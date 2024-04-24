@@ -160,8 +160,8 @@ export class MapService {
           place_name: document.place_name,
           address_name: document.address_name,
           place_url: document.place_url,
-          x: document.x,
-          y: document.y,
+          x: parseFloat(document.x),
+          y: parseFloat(document.y),
         });
       });
     });

@@ -39,10 +39,10 @@ class PlaceType {
   'place_url': string;
   @ApiProperty({ example: '부산 강서구 명지오션시티6로 2' })
   'road_address_name': string;
-  @ApiProperty({ example: '128.907353175642' })
-  'x': string;
-  @ApiProperty({ example: '35.0859058483527' })
-  'y': string;
+  @ApiProperty({ example: 128.907353175642 })
+  'x': number;
+  @ApiProperty({ example: 35.0859058483527 })
+  'y': number;
 }
 export class GetKeywordSearchResponseDto {
   @ApiProperty({ example: true })
