@@ -1,8 +1,11 @@
 import { axiosKakaoMap, errorHandler } from './axios';
 import { KakaoKeywordSearchQuery } from './types/kakaoApiTypes';
-import { KAKAO_KEYWORD_SEARCH_URL } from '../config/consts';
+import {
+  KAKAO_ADDRESS_SEARCH_URL,
+  KAKAO_KEYWORD_SEARCH_URL,
+} from '../config/consts';
 
-const kakaoKeywordSearch = async (params: KakaoKeywordSearchQuery) => {
+export const kakaoKeywordSearch = async (params: KakaoKeywordSearchQuery) => {
   //FIXME: seperate logic for purposes
   //1. get coordiates from address
   //2. search for keywords => more optional parameters has to be considered!! (페이지량, 정보량 등...)
@@ -18,4 +21,16 @@ const kakaoKeywordSearch = async (params: KakaoKeywordSearchQuery) => {
   }
 };
 
-export default kakaoKeywordSearch;
+export const kakaoAddressSearch = async (params: KakaoKeywordSearchQuery) => {
+  try {
+    const res = await axiosKakaoMap.get(KAKAO_ADDRESS_SEARCH_URL, {
+      params: {
+        query: params.query,
+      },
+    });
+    return res.data;
+  } catch (err) {
+    console.log('Error occured in kakaoAddressSearch :', err);
+    errorHandler(err);
+  }
+};

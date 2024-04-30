@@ -1,7 +1,7 @@
 import { Injectable, HttpException } from '@nestjs/common';
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
-import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
+import { kakaoKeywordSearch } from 'src/apis/kakaoPlaceSearch';
 import {
   KakaoDrivingPathQuery,
   KakaoKeywordSearchQuery,

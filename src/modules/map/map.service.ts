@@ -7,7 +7,10 @@ import {
   searchOnPathRequestDto,
 } from './dto/map.request.dto';
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
-import kakaoKeywordSearch from 'src/apis/kakaoKeywordSearch';
+import {
+  kakaoAddressSearch,
+  kakaoKeywordSearch,
+} from 'src/apis/kakaoPlaceSearch';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
 import { ROUTE_PRIORITY_LIST } from 'src/config/consts';
 import removeDuplicate from 'src/helpers/removeDuplicate';
@@ -28,9 +31,34 @@ export class MapService {
   }
 
   async getKeywordSearch(params: GetKeywordSearchRequestDto) {
-    const data = await kakaoKeywordSearch(params);
-    //FIXME: add more logics here, fine tune parameters (accuracy, priority, etc.)
-    return data?.documents;
+    const documents = [];
+    if (!params.x || !params.y) {
+      //search on path가 아닌경우
+      const addressData = await kakaoAddressSearch(params);
+      if (addressData.meta.total_count > 0)
+        addressData.documents.forEach((doc) => {
+          documents.push({
+            // place_name: doc.place_name, //place_name is not in the response
+            address_name: doc.address_name,
+            road_address_name: doc.road_address?.address_name,
+            // place_url: doc.place_url, //place_url is not in the response
+            x: parseFloat(doc.x),
+            y: parseFloat(doc.y),
+          });
+        });
+    }
+    const keywordData = await kakaoKeywordSearch(params);
+    keywordData.documents.forEach((doc) => {
+      documents.push({
+        place_name: doc.place_name,
+        address_name: doc.address_name,
+        road_address_name: doc.road_address_name,
+        place_url: doc.place_url,
+        x: parseFloat(doc.x),
+        y: parseFloat(doc.y),
+      });
+    });
+    return documents;
   }
 
   async getDrivingRoute(params: GetDrivingRouteRequestDto) {
@@ -159,6 +187,7 @@ export class MapService {
         searchResults.push({
           place_name: document.place_name,
           address_name: document.address_name,
+          road_address_name: document.road_address_name,
           place_url: document.place_url,
           x: parseFloat(document.x),
           y: parseFloat(document.y),

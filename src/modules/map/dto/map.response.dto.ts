@@ -15,32 +15,38 @@ export class GetAddressResponseDto {
 }
 
 class PlaceType {
-  //FIXME: add examples, descrptions
+  // @ApiProperty()
+  // 'category_group_code': string | ''; //FIXME: list up all possible category codes and make it enum (literal)
+  // @ApiProperty()
+  // 'category_group_name': string | '';
+  // @ApiProperty({ example: '문화,예술 > 종교 > 기독교 > 교회' })
+  // 'category_name': string; // @ApiProperty({ example: '8162856' })
+  // 'id': string;
+  // @ApiProperty({ example: '051-209-0191' })
+  // 'phone': string;
+  // @ApiProperty({
+  //   example: '',
+  //   description: "'' if x,y coordinates are not given as query input",
+  // })
+  // 'distance': string | '';
+  @ApiProperty({ example: '호산나교회', required: false })
+  'place_name'?: string;
+
+  @ApiProperty({
+    example: 'http://place.map.kakao.com/8162856',
+    required: false,
+  })
+  'place_url'?: string;
+
+  @ApiProperty({ example: '부산 강서구 명지오션시티6로 2', required: false })
+  'road_address_name'?: string;
+
   @ApiProperty({ example: '부산 강서구 명지동 3245-5' })
   'address_name': string;
-  @ApiProperty()
-  'category_group_code': string | ''; //FIXME: list up all possible category codes and make it enum (literal)
-  @ApiProperty()
-  'category_group_name': string | '';
-  @ApiProperty({ example: '문화,예술 > 종교 > 기독교 > 교회' })
-  'category_name': string;
-  @ApiProperty({
-    example: '',
-    description: "'' if x,y coordinates are not given as query input",
-  })
-  'distance': string | '';
-  @ApiProperty({ example: '8162856' })
-  'id': string;
-  @ApiProperty({ example: '051-209-0191' })
-  'phone': string;
-  @ApiProperty({ example: '호산나교회' })
-  'place_name': string;
-  @ApiProperty({ example: 'http://place.map.kakao.com/8162856' })
-  'place_url': string;
-  @ApiProperty({ example: '부산 강서구 명지오션시티6로 2' })
-  'road_address_name': string;
+
   @ApiProperty({ example: 128.907353175642 })
   'x': number;
+
   @ApiProperty({ example: 35.0859058483527 })
   'y': number;
 }
@@ -131,14 +137,24 @@ export class GetStopByDurationResponseDto {
 }
 
 class searchOnPathDataDetail {
-  @ApiProperty({ example: '호산나교회' })
-  place_name: string;
+  @ApiProperty({ example: '호산나교회', required: false })
+  place_name?: string;
+
+  @ApiProperty({ example: '부산 강서구 명지오션시티6로 2', required: false })
+  road_address_name?: string;
+
+  @ApiProperty({
+    example: 'http://place.map.kakao.com/8162856',
+    required: false,
+  })
+  place_url?: string;
+
   @ApiProperty({ example: '부산 강서구 명지동 3245-5' })
   address_name: string;
-  @ApiProperty({ example: 'http://place.map.kakao.com/8162856' })
-  place_url: string;
+
   @ApiProperty({ example: '128.907353175642' })
   x: string;
+
   @ApiProperty({ example: '35.0859058483527' })
   y: string;
 }
