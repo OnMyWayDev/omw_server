@@ -65,7 +65,7 @@ export class MapService {
     const promises = ROUTE_PRIORITY_LIST.map(async (priority) => {
       //FIXME: fix me -> Request Dto has been changed!
       //FIXME: have to return where origin, destination, waypoints are in the original route search API
-      const data = await kakaoGetDrivingRoute(params);
+      const data = await kakaoGetDrivingRoute({ ...params, priority });
       if (data.routes[0].result_code !== 0) {
         throw new HttpException(data.routes[0].result_msg, 400);
       }
@@ -81,14 +81,12 @@ export class MapService {
           tmpPath.push(...road.vertexes);
         });
       });
-      console.log('tmpPath:', tmpPath);
       const path = tmpPath.reduce((acc, cur, idx) => {
         if (idx % 2 === 0)
           acc.push({ longitude: cur }); //x값, longitude
         else acc[acc.length - 1].latitude = cur; //y값, latitude
         return acc;
       }, []);
-      console.log('path:', path);
 
       return { priority, duration, distance, path };
     });
