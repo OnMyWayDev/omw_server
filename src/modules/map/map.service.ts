@@ -81,12 +81,14 @@ export class MapService {
           tmpPath.push(...road.vertexes);
         });
       });
-
+      console.log('tmpPath:', tmpPath);
       const path = tmpPath.reduce((acc, cur, idx) => {
-        if (idx % 2 === 0) acc.push([cur]);
-        else acc[acc.length - 1].push(cur);
+        if (idx % 2 === 0)
+          acc.push({ longitude: cur }); //x값, longitude
+        else acc[acc.length - 1].latitude = cur; //y값, latitude
         return acc;
       }, []);
+      console.log('path:', path);
 
       return { priority, duration, distance, path };
     });

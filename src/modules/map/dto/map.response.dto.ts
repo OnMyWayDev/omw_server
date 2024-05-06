@@ -82,6 +82,10 @@ class DrivingRouteDetail {
   @ApiProperty({ example: 5000, description: 'in meters' })
   distance: number;
   @ApiProperty({
+    example: [
+      { latitude: 37.5858189680129, longitude: 127.021344106907 },
+      { latitude: 37.5858189680129, longitude: 127.021344106907 },
+    ],
     type: [Coordinate],
   })
   path: Coordinate[];
