@@ -59,6 +59,18 @@ export class GetKeywordSearchResponseDto {
   data: PlaceType[];
 }
 
+class Coordinate {
+  @ApiProperty({
+    example: 37.5858189680129,
+    description: '위도, y',
+  })
+  latitude: number;
+  @ApiProperty({
+    example: 127.021344106907,
+    description: '경도, x',
+  })
+  longitude: number;
+}
 class DrivingRouteDetail {
   @ApiProperty({
     example: 'RECOMMEND',
@@ -70,13 +82,9 @@ class DrivingRouteDetail {
   @ApiProperty({ example: 5000, description: 'in meters' })
   distance: number;
   @ApiProperty({
-    example: [
-      [127.021344106907, 37.5858189680129],
-      [127.021344106907, 37.5858189680129],
-    ],
-    description: '[[x1, y1], [x2, y2], ...]',
+    type: [Coordinate],
   })
-  path: string[][];
+  path: Coordinate[];
 }
 
 export class GetDrivingRouteResponseDto {
