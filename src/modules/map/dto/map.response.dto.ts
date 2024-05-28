@@ -129,11 +129,18 @@ export class GetDrivingRouteResponseDto {
   data: DrivingRouteDetail[];
 }
 
+class stopByDurationResponseData {
+  @ApiProperty({ example: 'FRONT' })
+  strategy: 'FRONT' | 'MIDDLE' | 'REAR';
+  @ApiProperty({ example: 60, description: 'in seconds' })
+  duration: number;
+}
+
 export class GetStopByDurationResponseDto {
   @ApiProperty({ example: true })
   success: boolean;
-  @ApiProperty({ example: 3660, description: 'minimum duration, in seconds' })
-  data: number;
+  @ApiProperty({ type: stopByDurationResponseData })
+  data: stopByDurationResponseData;
 }
 
 class searchOnPathDataDetail {

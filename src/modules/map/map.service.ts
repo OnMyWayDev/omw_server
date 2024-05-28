@@ -105,37 +105,50 @@ export class MapService {
 
   async getStopByDuration(params: GetStopByDurationRequestDto) {
     //FIXME: exception handling required (when requesting API to Kakao!!! + Error codes)
+    // STRATEGY : FRONT / MIDDLE / REAR
     const { stopby, waypoints, ...rest } = params;
     const waypointsList = [];
     if (waypoints) {
       const oldList = waypoints.split(' | ');
       if (oldList.length == 2) {
-        waypointsList.push(`${stopby} | ${oldList[0]} | ${oldList[1]}`);
-        waypointsList.push(`${oldList[0]} | ${stopby} | ${oldList[1]}`);
-        waypointsList.push(`${oldList[0]} | ${oldList[1]} | ${stopby}`);
+        waypointsList.push({
+          waypoints: `${stopby} | ${oldList[0]} | ${oldList[1]}`,
+          strategy: 'FRONT',
+        });
+        waypointsList.push({
+          waypoints: `${oldList[0]} | ${stopby} | ${oldList[1]}`,
+          strategy: 'MIDDLE',
+        });
+        waypointsList.push({
+          waypoints: `${oldList[0]} | ${oldList[1]} | ${stopby}`,
+          strategy: 'REAR',
+        });
       } else if (oldList.length == 1) {
-        waypointsList.push(`${stopby} | ${waypoints}`);
-        waypointsList.push(`${waypoints} | ${stopby}`);
+        waypointsList.push({
+          waypoints: `${stopby} | ${waypoints}`,
+          strategy: 'FRONT',
+        });
+        waypointsList.push({
+          waypoints: `${waypoints} | ${stopby}`,
+          strategy: 'REAR',
+        });
       }
-    } else waypointsList.push(stopby);
+    } else waypointsList.push({ waypoints: stopby });
 
     const promise = waypointsList.map(async (waypoint) => {
-      console.log({
-        ...rest,
-        waypoints: waypoint,
-        summary: true,
-        alternatives: false,
-      });
       const data = await kakaoGetDrivingRoute({
         ...rest,
-        waypoints: waypoint,
+        waypoints: waypoint.waypoints,
         summary: true,
         alternatives: false,
       });
       // if (data.routes[0].result_code !== 0) {
       //   throw new HttpException(data.routes[0].result_msg, 400);
       // }
-      return data.routes[0].summary.duration;
+      return {
+        duration: data.routes[0].summary.duration,
+        strategy: waypoint.strategy,
+      };
     });
     //request multiple route search API for each waypoint, returns the shortest one (tells the order of waypoints)
     const results = await Promise.allSettled(promise);
@@ -147,7 +160,11 @@ export class MapService {
     const candidates = successfulResults.map(
       (result: PromiseFulfilledResult<any>) => result.value,
     );
-    return Math.min(...candidates);
+    const minDurationElement = candidates.reduce((prev, current) => {
+      return prev.duration < current.duration ? prev : current;
+    });
+
+    return minDurationElement;
   }
 
   async searchOnPath(params: searchOnPathRequestDto) {
