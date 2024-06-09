@@ -261,7 +261,12 @@ export class MapService {
     const retRes = removeDuplicate(res);
     retRes.sort((a, b) => b.priority - a.priority);
 
-    this.logger.log('result length :', retRes.length);
+    this.logger.log(
+      'initial result length :' +
+        res.length +
+        'final result length :' +
+        retRes.length,
+    );
 
     return retRes;
   }
