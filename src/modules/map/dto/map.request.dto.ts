@@ -58,6 +58,13 @@ export class GetKeywordSearchRequestDto {
     required: false,
   })
   radius?: string;
+
+  @ApiProperty({
+    example: '15',
+    description: 'number of results in a single page',
+    required: false,
+  })
+  size?: string;
 }
 
 export class GetDrivingRouteRequestDto {

@@ -48,14 +48,17 @@ export class MapService {
         });
     }
     const keywordData = await kakaoKeywordSearch(params);
-    keywordData.documents.forEach((doc) => {
+
+    keywordData.documents.forEach((data) => {
       documents.push({
-        place_name: doc.place_name,
-        address_name: doc.address_name,
-        road_address_name: doc.road_address_name,
-        place_url: doc.place_url,
-        x: parseFloat(doc.x),
-        y: parseFloat(doc.y),
+        place_name: data.place_name,
+        address_name: data.address_name,
+        road_address_name: data.road_address_name,
+        place_url: data.place_url,
+        x: parseFloat(data.x),
+        y: parseFloat(data.y),
+        is_end: keywordData.meta.is_end, //is_end가 false인 Vertices의 리스트를 유지
+        total_count: keywordData.meta.total_count, //totalCount순으로 sort
       });
     });
     return documents;
@@ -171,6 +174,7 @@ export class MapService {
     //FIXME: add validation to Radius!!! (It has to be 0~20000km, and // radius is set so that selectedVertices.length ~<= 10)
     //FIXME: add validation => Min : Math.floor(totalDistance / radius) <= 10, Max : Min(20000, totalDistance) // [ totalDistance / 10, Math.min(20000, totalDistance) ]
     const { query, category_group_code, radius, path, totalDistance } = params;
+
     const selectedVertices: string[][] = selectVertices({
       path,
       totalDistance,
@@ -178,13 +182,13 @@ export class MapService {
     });
 
     // radius is set so that selectedVertices.length ~<= 10
-
     const promises = selectedVertices.map((vertex) =>
       this.getKeywordSearch({
         query: query,
         x: vertex[0],
         y: vertex[1],
         radius: radius.toString(),
+        size: Math.min(Math.ceil(160 / selectedVertices.length), 15).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
       }),
     );
@@ -199,21 +203,63 @@ export class MapService {
     }
 
     const searchResults = [];
-    successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
-      result.value.map((document) => {
-        searchResults.push({
-          place_name: document.place_name,
-          address_name: document.address_name,
-          road_address_name: document.road_address_name,
-          place_url: document.place_url,
-          x: parseFloat(document.x),
-          y: parseFloat(document.y),
+    const moreIndexes = [];
+    successfulResults.forEach(
+      (result: PromiseFulfilledResult<any>, index: number) => {
+        if (result.value[0]?.is_end === false)
+          moreIndexes.push({ index, total_count: result.value[0].total_count });
+        result.value.map((document) => {
+          searchResults.push({
+            place_name: document.place_name,
+            address_name: document.address_name,
+            road_address_name: document.road_address_name,
+            place_url: document.place_url,
+            x: parseFloat(document.x),
+            y: parseFloat(document.y),
+            priority: document.total_count,
+          });
         });
-      });
-    });
+      },
+    );
 
     const res = removeDuplicate(searchResults);
 
-    return res;
+    if (res.length < 70) {
+      const promises = moreIndexes.map((moreIndex) =>
+        this.getKeywordSearch({
+          query: query,
+          x: selectedVertices[moreIndex.index][0],
+          y: selectedVertices[moreIndex.index][1],
+          radius: radius.toString(),
+          size: Math.min(
+            Math.ceil((70 - res.length) / moreIndexes.length),
+            15,
+          ).toString(),
+          category_group_code,
+        }),
+      );
+      const results = await Promise.allSettled(promises);
+      const successfulResults = results.filter(
+        (result) => result.status === 'fulfilled',
+      );
+      successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
+        result.value.map((document) => {
+          res.push({
+            place_name: document.place_name,
+            address_name: document.address_name,
+            road_address_name: document.road_address_name,
+            place_url: document.place_url,
+            x: parseFloat(document.x),
+            y: parseFloat(document.y),
+            priority: document.total_count,
+          });
+        });
+      });
+    }
+
+    const retRes = removeDuplicate(res);
+    retRes.sort((a, b) => b.priority - a.priority);
+
+    return retRes;
   }
 }

@@ -40,3 +40,5 @@ export const CATEGORY_LIST = [
   'PM9',
 ];
 //FIXME: fix it to be enum or literals
+
+export const MAX_RESULT = 70;
