@@ -182,10 +182,10 @@ export class MapService {
       radius: radius || 20000,
     });
 
-    this.logger.log(
-      'selectedVertices : ' + selectedVertices.length,
-      Math.ceil(160 / selectedVertices.length),
-    );
+    // this.logger.log(
+    //   'selectedVertices : ' + selectedVertices.length,
+    //   Math.ceil(160 / selectedVertices.length),
+    // );
 
     // radius is set so that selectedVertices.length ~<= 10
     const promises = selectedVertices.map((vertex) =>
@@ -194,7 +194,7 @@ export class MapService {
         x: vertex[0],
         y: vertex[1],
         radius: radius.toString(),
-        size: Math.min(Math.ceil(160 / selectedVertices.length), 15).toString(), //지점당 검색 결과 개수,, temporary
+        size: Math.min(Math.ceil(100 / selectedVertices.length), 15).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
       }),
     );
@@ -266,12 +266,12 @@ export class MapService {
     const retRes = removeDuplicate(res);
     retRes.sort((a, b) => b.priority - a.priority);
 
-    this.logger.log(
-      'initial result length :' +
-        res.length +
-        'final result length :' +
-        retRes.length,
-    );
+    // this.logger.log(
+    //   'initial result length :' +
+    //     res.length +
+    //     'final result length :' +
+    //     retRes.length,
+    // );
 
     return retRes;
   }
