@@ -19,7 +19,8 @@ const selectVertices = ({
   if (skipCount === 0)
     throw new HttpException('radius is too small to search on the path', 400);
 
-  let curIdx = skipCount < totalCount ? skipCount : totalCount - 1;
+  let curIdx =
+    skipCount / 2 <= totalCount ? Math.floor(skipCount / 2) : totalCount - 1;
   while (curIdx < totalCount) {
     selectedVertices.push(path[curIdx]);
     curIdx += skipCount;

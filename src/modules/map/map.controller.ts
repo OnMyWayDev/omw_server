@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Logger, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  HttpCode,
+  Logger,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { MapService } from './map.service';
 import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import {
@@ -65,6 +73,7 @@ export class MapController {
   }
 
   @Post('search-on-path')
+  @HttpCode(200)
   @ApiOperation({
     summary: 'Returns list of places on the path of the route.',
   })
