@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import {
   GetAddressRequestDto,
   GetDrivingRouteRequestDto,
@@ -18,6 +18,7 @@ import selectVertices from 'src/helpers/selectVertices';
 
 @Injectable()
 export class MapService {
+  private logger = new Logger('HTTP');
   async getAddress(params: GetAddressRequestDto) {
     const res = await kakaoGetAddress(params);
     if (res) {
@@ -259,6 +260,8 @@ export class MapService {
 
     const retRes = removeDuplicate(res);
     retRes.sort((a, b) => b.priority - a.priority);
+
+    this.logger.log('result length :', retRes.length);
 
     return retRes;
   }
