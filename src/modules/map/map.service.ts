@@ -182,6 +182,11 @@ export class MapService {
       radius: radius || 20000,
     });
 
+    this.logger.log(
+      'selectedVertices : ' + selectedVertices.length,
+      Math.ceil(160 / selectedVertices.length),
+    );
+
     // radius is set so that selectedVertices.length ~<= 10
     const promises = selectedVertices.map((vertex) =>
       this.getKeywordSearch({
