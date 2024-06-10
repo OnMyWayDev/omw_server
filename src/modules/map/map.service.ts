@@ -143,15 +143,30 @@ export class MapService {
       const data = await kakaoGetDrivingRoute({
         ...rest,
         waypoints: waypoint.waypoints,
-        summary: true,
+        // summary: true,
         alternatives: false,
       });
       // if (data.routes[0].result_code !== 0) {
       //   throw new HttpException(data.routes[0].result_msg, 400);
       // }
+      const route = data.routes[0];
+      const path = [];
+      route.sections.forEach((section) => {
+        const roads = section.roads;
+        roads.forEach((road) => {
+          path.push(...road.vertexes);
+        });
+      });
+
       return {
         duration: data.routes[0].summary.duration,
         strategy: waypoint.strategy,
+        path: path.reduce((acc, cur, idx) => {
+          if (idx % 2 === 0)
+            acc.push({ longitude: cur }); //x값, longitude
+          else acc[acc.length - 1].latitude = cur; //y값, latitude
+          return acc;
+        }, []),
       };
     });
     //request multiple route search API for each waypoint, returns the shortest one (tells the order of waypoints)
