@@ -6,6 +6,13 @@ export interface KakaoKeywordSearchQuery {
   radius?: string;
 }
 
+export interface KakaoCategorySearchQuery {
+  category_group_code: string;
+  x?: string;
+  y?: string;
+  radius?: string;
+}
+
 export interface KakaoDrivingPathQuery {
   //FIXME: to include other options (using hipass, local roads only,, etc.)
   //FIXME: merge startX,startY and endX,endY

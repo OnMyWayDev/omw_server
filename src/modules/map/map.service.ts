@@ -9,10 +9,11 @@ import {
 import kakaoGetAddress from 'src/apis/kakaoGetAddress';
 import {
   kakaoAddressSearch,
+  kakaoCategorySearch,
   kakaoKeywordSearch,
 } from 'src/apis/kakaoPlaceSearch';
 import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
-import { ROUTE_PRIORITY_LIST } from 'src/config/consts';
+import { CATEGORY_LABEL_TO_CODE, ROUTE_PRIORITY_LIST } from 'src/config/consts';
 import removeDuplicate from 'src/helpers/removeDuplicate';
 import selectVertices from 'src/helpers/selectVertices';
 
@@ -48,7 +49,17 @@ export class MapService {
           });
         });
     }
-    const keywordData = await kakaoKeywordSearch(params);
+    //Category search인 경우
+    let keywordData;
+    if (params.query.startsWith('카테고리 :')) {
+      const category = params.query.split(' : ')[1].trim();
+      keywordData = await kakaoCategorySearch({
+        category_group_code: CATEGORY_LABEL_TO_CODE[category],
+        x: params.x,
+        y: params.y,
+        radius: params.radius,
+      });
+    } else keywordData = await kakaoKeywordSearch(params);
 
     keywordData.documents.forEach((data) => {
       documents.push({

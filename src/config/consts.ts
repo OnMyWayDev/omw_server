@@ -11,6 +11,7 @@ export const KAKAO_GET_ADDRESS_URL = 'geo/coord2address.JSON';
 export const KAKAO_GET_DRIVING_ROUTE_URL = 'directions';
 export const KAKAO_ADDRESS_SEARCH_URL = 'search/address.JSON';
 export const KAKAO_KEYWORD_SEARCH_URL = 'search/keyword.JSON';
+export const KAKAO_CATEGORY_SEARCH_URL = 'search/category.JSON';
 
 export const ROUTE_PRIORITY_LIST: Array<'RECOMMEND' | 'TIME' | 'DISTANCE'> = [
   'RECOMMEND',
@@ -40,5 +41,15 @@ export const CATEGORY_LIST = [
   'PM9',
 ];
 //FIXME: fix it to be enum or literals
+
+export const CATEGORY_LABEL_TO_CODE = {
+  대형마트: 'MT1',
+  편의점: 'CS2',
+  주차장: 'PK6',
+  음식점: 'FD6',
+  숙박: 'AD5',
+  카페: 'CE7',
+  병원: 'HP8',
+};
 
 export const MAX_RESULT = 70;
