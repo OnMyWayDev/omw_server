@@ -2,6 +2,10 @@ import { config } from 'dotenv';
 
 config();
 
+export const OPENAI_HEADER_AUTH = process.env.OPENAI_HEADER_AUTH;
+export const OPENAI_BASE_URL = 'https://api.openai.com/v1/';
+export const OPENAI_API_URL = 'chat/completions';
+
 export const KAKAO_API_KEY = process.env.KAKAO_API_KEY;
 
 export const KAKAO_MAP_BASE_URL = 'https://dapi.kakao.com/v2/local/';

@@ -99,4 +99,17 @@ export class MapController {
   async getStopbyDuration(@Query() params: GetStopByDurationRequestDto) {
     return await this.mapService.getStopByDuration(params);
   }
+
+  //FIXME: create Dtos, add Swagger
+  @Post('get-review-summary')
+  @ApiResponse({
+    status: 200,
+    description: 'Success',
+    // type: GetAddressResponseDto, //FIXME: Change to GetReviewSummaryResponseDto
+  })
+  @ApiOperation({ summary: 'Generate Review Summary via ChatGPT' })
+  async getReviewSummary(@Body() params: any) {
+    //FIXME: Change to GetReviewSummaryRequestDto
+    return await this.mapService.getReviewSummary(params);
+  }
 }

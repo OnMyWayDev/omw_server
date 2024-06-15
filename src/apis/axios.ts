@@ -4,6 +4,8 @@ import {
   KAKAO_MAP_BASE_URL,
   KAKAO_NAV_BASE_URL,
   KAKAO_API_KEY,
+  OPENAI_HEADER_AUTH,
+  OPENAI_BASE_URL,
 } from 'src/config/consts';
 
 const axiosKakaoMap = axios.create({
@@ -18,6 +20,15 @@ const axiosKakaoNav = axios.create({
   headers: {
     Authorization: KAKAO_API_KEY,
     'Content-Type': 'application/json',
+  },
+});
+
+const axiosOpenAi = axios.create({
+  baseURL: OPENAI_BASE_URL,
+  timeout: 8000,
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: OPENAI_HEADER_AUTH,
   },
 });
 
@@ -41,4 +52,4 @@ const errorHandler = (error: AxiosError) => {
   }
 };
 
-export { axiosKakaoMap, axiosKakaoNav, errorHandler };
+export { axiosKakaoMap, axiosKakaoNav, axiosOpenAi, errorHandler };

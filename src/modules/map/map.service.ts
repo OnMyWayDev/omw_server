@@ -16,6 +16,8 @@ import kakaoGetDrivingRoute from 'src/apis/kakaoGetDrivingRoute';
 import { CATEGORY_LABEL_TO_CODE, ROUTE_PRIORITY_LIST } from 'src/config/consts';
 import removeDuplicate from 'src/helpers/removeDuplicate';
 import selectVertices from 'src/helpers/selectVertices';
+import OpenAI from 'openai';
+import openAiGetReviewSummary from 'src/apis/openAiGetReviewSummary';
 
 @Injectable()
 export class MapService {
@@ -300,5 +302,17 @@ export class MapService {
     // );
 
     return retRes;
+  }
+
+  //FIXME: complete feature, add types
+  async getReviewSummary(params) {
+    const res = await openAiGetReviewSummary(params);
+
+    if (res && res.choices && res.choices.length > 0) {
+      return res.choices[0].message?.content;
+    } else {
+      //throw error here
+      throw new HttpException('Error while generating summary', 500);
+    }
   }
 }
