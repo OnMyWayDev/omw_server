@@ -219,7 +219,9 @@ export class MapService {
     let maximum: number;
     if (totalDistance <= 70000)
       maximum = Math.min(70, Math.max(Math.ceil(totalDistance / 1000), 30));
-    else maximum = 70;
+    else if (totalDistance <= 150000) maximum = 100;
+    else if (totalDistance <= 200000) maximum = 120;
+    else maximum = 150;
 
     // radius is set so that selectedVertices.length ~<= 10
     const promises = selectedVertices.map((vertex) =>
