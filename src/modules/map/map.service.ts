@@ -215,6 +215,11 @@ export class MapService {
     //   Math.ceil(160 / selectedVertices.length),
     // );
 
+    let maximum: number;
+    if (totalDistance <= 70000)
+      maximum = Math.max(Math.ceil(totalDistance / 800), 30);
+    else maximum = 70;
+
     // radius is set so that selectedVertices.length ~<= 10
     const promises = selectedVertices.map((vertex) =>
       this.getKeywordSearch({
@@ -222,7 +227,10 @@ export class MapService {
         x: vertex[0],
         y: vertex[1],
         radius: radius.toString(),
-        size: Math.min(Math.ceil(100 / selectedVertices.length), 15).toString(), //지점당 검색 결과 개수,, temporary
+        size: Math.min(
+          Math.ceil((maximum + 15) / selectedVertices.length),
+          15,
+        ).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
       }),
     );
@@ -258,10 +266,7 @@ export class MapService {
 
     const res = removeDuplicate(searchResults);
 
-    let maximum: number;
-    if (totalDistance <= 70000)
-      maximum = Math.max(Math.ceil(totalDistance / 800), 30);
-    else maximum = 70;
+    console.log('res before : ', res.length);
 
     if (res.length < maximum) {
       const promises = moreIndexes.map((moreIndex) =>
@@ -298,7 +303,7 @@ export class MapService {
 
     const retRes = removeDuplicate(res);
 
-    console.log('retRes : ', retRes.length);
+    console.log('retRes after : ', retRes.length);
 
     retRes.sort((a, b) => b.priority - a.priority);
 
