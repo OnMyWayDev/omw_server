@@ -60,6 +60,7 @@ export class MapService {
         x: params.x,
         y: params.y,
         radius: params.radius,
+        size: params.size,
       });
     } else keywordData = await kakaoKeywordSearch(params);
 
@@ -265,15 +266,6 @@ export class MapService {
     );
 
     const res = removeDuplicate(searchResults);
-    console.log('totaldistance : ', totalDistance);
-    console.log('radius : ', radius);
-    console.log('selectedVertices : ', selectedVertices.length);
-    console.log(
-      'unit : ',
-      Math.min(Math.ceil(80 / selectedVertices.length), 15),
-    );
-
-    console.log('res before : ', res.length);
 
     if (res.length < maximum) {
       moreIndexes.sort((a, b) => b.total_count - a.total_count);
@@ -312,7 +304,7 @@ export class MapService {
 
     const retRes = removeDuplicate(res);
 
-    console.log('retRes after : ', retRes.length);
+    console.log('Total Result Length : ', retRes.length);
 
     retRes.sort((a, b) => b.priority - a.priority);
 

@@ -4,6 +4,7 @@ export interface KakaoKeywordSearchQuery {
   x?: string;
   y?: string;
   radius?: string;
+  size?: string;
 }
 
 export interface KakaoCategorySearchQuery {
@@ -11,6 +12,7 @@ export interface KakaoCategorySearchQuery {
   x?: string;
   y?: string;
   radius?: string;
+  size?: string;
 }
 
 export interface KakaoDrivingPathQuery {
