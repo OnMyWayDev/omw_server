@@ -258,7 +258,12 @@ export class MapService {
 
     const res = removeDuplicate(searchResults);
 
-    if (res.length < 70) {
+    let maximum: number;
+    if (totalDistance <= 70000)
+      maximum = Math.max(Math.ceil(totalDistance / 800), 30);
+    else maximum = 70;
+
+    if (res.length < maximum) {
       const promises = moreIndexes.map((moreIndex) =>
         this.getKeywordSearch({
           query: query,
@@ -266,7 +271,7 @@ export class MapService {
           y: selectedVertices[moreIndex.index][1],
           radius: radius.toString(),
           size: Math.min(
-            Math.ceil((70 - res.length) / moreIndexes.length),
+            Math.ceil((maximum - res.length) / moreIndexes.length),
             15,
           ).toString(),
           category_group_code,
@@ -292,6 +297,9 @@ export class MapService {
     }
 
     const retRes = removeDuplicate(res);
+
+    console.log('retRes : ', retRes.length);
+
     retRes.sort((a, b) => b.priority - a.priority);
 
     // this.logger.log(
