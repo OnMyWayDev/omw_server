@@ -251,6 +251,7 @@ export class MapService {
       (result: PromiseFulfilledResult<any>, index: number) => {
         if (result.value[0]?.is_end === false)
           moreIndexes.push({ index, total_count: result.value[0].total_count });
+        console.log('length : ', result.value.length, res.length);
         result.value.map((document) => {
           searchResults.push({
             place_name: document.place_name,
@@ -288,7 +289,6 @@ export class MapService {
       );
       successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
         result.value.map((document) => {
-          console.log('length : ', result.value.length, res.length);
           if (res.length <= maximum)
             res.push({
               place_name: document.place_name,
