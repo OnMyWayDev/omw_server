@@ -244,6 +244,16 @@ export class MapService {
     if (successfulResults.length < promises.length - 2) {
       throw new Error('More than 2 requests failed');
     }
+    console.log('maximum + 10 : ', maximum + 10);
+    console.log('selectedVertices.length : ', selectedVertices.length);
+    console.log(
+      'Math.ceil(maximum + 10 / selectedVertices.length) : ',
+      Math.ceil(maximum + 10 / selectedVertices.length),
+    );
+    console.log(
+      'unit length : ',
+      Math.min(Math.ceil(maximum + 10 / selectedVertices.length), 15),
+    );
 
     const searchResults = [];
     const moreIndexes = [];
