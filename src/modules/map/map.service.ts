@@ -227,10 +227,7 @@ export class MapService {
         x: vertex[0],
         y: vertex[1],
         radius: radius.toString(),
-        size: Math.min(
-          Math.ceil((maximum + 15) / selectedVertices.length),
-          15,
-        ).toString(), //지점당 검색 결과 개수,, temporary
+        size: Math.min(Math.ceil(80 / selectedVertices.length), 15).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
       }),
     );
@@ -265,10 +262,18 @@ export class MapService {
     );
 
     const res = removeDuplicate(searchResults);
+    console.log('totaldistance : ', totalDistance);
+    console.log('radius : ', radius);
+    console.log('selectedVertices : ', selectedVertices.length);
+    console.log(
+      'unit : ',
+      Math.min(Math.ceil(80 / selectedVertices.length), 15),
+    );
 
     console.log('res before : ', res.length);
 
     if (res.length < maximum) {
+      moreIndexes.sort((a, b) => b.total_count - a.total_count);
       const promises = moreIndexes.map((moreIndex) =>
         this.getKeywordSearch({
           query: query,
@@ -288,15 +293,16 @@ export class MapService {
       );
       successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
         result.value.map((document) => {
-          res.push({
-            place_name: document.place_name,
-            address_name: document.address_name,
-            road_address_name: document.road_address_name,
-            place_url: document.place_url,
-            x: parseFloat(document.x),
-            y: parseFloat(document.y),
-            priority: document.total_count,
-          });
+          if (res.length <= maximum)
+            res.push({
+              place_name: document.place_name,
+              address_name: document.address_name,
+              road_address_name: document.road_address_name,
+              place_url: document.place_url,
+              x: parseFloat(document.x),
+              y: parseFloat(document.y),
+              priority: document.total_count,
+            });
         });
       });
     }
