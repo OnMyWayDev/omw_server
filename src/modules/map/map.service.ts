@@ -218,7 +218,7 @@ export class MapService {
 
     let maximum: number;
     if (totalDistance <= 70000)
-      maximum = Math.max(Math.ceil(totalDistance / 800), 30);
+      maximum = Math.min(70, Math.max(Math.ceil(totalDistance / 800), 30));
     else maximum = 70;
 
     // radius is set so that selectedVertices.length ~<= 10
@@ -288,6 +288,7 @@ export class MapService {
       );
       successfulResults.forEach((result: PromiseFulfilledResult<any>) => {
         result.value.map((document) => {
+          console.log('length : ', result.value.length, res.length);
           if (res.length <= maximum)
             res.push({
               place_name: document.place_name,
