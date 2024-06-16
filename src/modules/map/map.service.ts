@@ -248,11 +248,11 @@ export class MapService {
     console.log('selectedVertices.length : ', selectedVertices.length);
     console.log(
       'Math.ceil(maximum + 10 / selectedVertices.length) : ',
-      Math.ceil(maximum + 10 / selectedVertices.length),
+      Math.ceil((maximum + 10) / selectedVertices.length),
     );
     console.log(
       'unit length : ',
-      Math.min(Math.ceil(maximum + 10 / selectedVertices.length), 15),
+      Math.min(Math.ceil((maximum + 10) / selectedVertices.length), 15),
     );
 
     const searchResults = [];
