@@ -218,7 +218,7 @@ export class MapService {
 
     let maximum: number;
     if (totalDistance <= 70000)
-      maximum = Math.min(70, Math.max(Math.ceil(totalDistance / 800), 30));
+      maximum = Math.min(70, Math.max(Math.ceil(totalDistance / 1000), 30));
     else maximum = 70;
 
     // radius is set so that selectedVertices.length ~<= 10
@@ -229,7 +229,7 @@ export class MapService {
         y: vertex[1],
         radius: radius.toString(),
         size: Math.min(
-          Math.ceil((maximum + 10) / selectedVertices.length),
+          Math.ceil((maximum + 5) / selectedVertices.length),
           15,
         ).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
@@ -261,7 +261,6 @@ export class MapService {
       (result: PromiseFulfilledResult<any>, index: number) => {
         if (result.value[0]?.is_end === false)
           moreIndexes.push({ index, total_count: result.value[0].total_count });
-        console.log('length : ', result.value.length);
         result.value.map((document) => {
           searchResults.push({
             place_name: document.place_name,
@@ -314,8 +313,6 @@ export class MapService {
     }
 
     const retRes = removeDuplicate(res);
-
-    console.log('Total Result Length : ', retRes.length);
 
     retRes.sort((a, b) => b.priority - a.priority);
 
