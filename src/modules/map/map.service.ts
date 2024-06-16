@@ -229,7 +229,7 @@ export class MapService {
         y: vertex[1],
         radius: radius.toString(),
         size: Math.min(
-          Math.ceil(maximum + 10 / selectedVertices.length),
+          Math.ceil((maximum + 10) / selectedVertices.length),
           15,
         ).toString(), //지점당 검색 결과 개수,, temporary
         category_group_code,
