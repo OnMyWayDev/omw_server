@@ -1,4 +1,6 @@
-# OMW_BE
+# OnMyWay - 경로 주변 장소 검색을 한눈에
+
+## BackEnd Repository for OnMyWay application
 
 ## Reference
 <img width="531" alt="image" src="https://github.com/OnMyWayDev/omw_front/assets/45298516/3165bf21-09e5-45ba-884e-5d1620142d99">
@@ -25,10 +27,6 @@ cd() {
 }
 ```
 
-## BackEnd Repository for OnMyWay application
-
-TBU
-
 ### Tech Stacks Used
 
 `Nest.js` `TypeScript`
@@ -54,7 +52,6 @@ Hotfix/\* - bug fixes, merge directly to main
 ![GitFlow Explanation](./docs/GitflowExplanation.png)
 
 ## Algorithm
-
 TBU
 
 Algorithm for choosing vertexes
@@ -69,19 +66,15 @@ Algorithm for choosing vertexes
   TBU
 
 ### Development
-
 TBU
 ![alt text](image.png)
 
 ### Testing
-
 TBU
 
 ### CI/CD
 TBU
 
-TBU
-
 ### Deployment
-
+\
 TBU
