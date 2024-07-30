@@ -30,7 +30,6 @@ jobs:
 
       - name: Build & Run Development Server
         run: |
-          pnpm build
           sudo pnpm start:prod
 
       - name: Notify to Slack on Success
