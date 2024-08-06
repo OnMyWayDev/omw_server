@@ -21,6 +21,7 @@ export class UserService {
       password: hashedPassword,
     });
 
-    return user.readOnlyData;
+    // return user.readOnlyData;
+    return true;
   }
 }
